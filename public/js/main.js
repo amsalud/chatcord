@@ -11,7 +11,11 @@ const {username, room } = Qs.parse(location.search, {
 
 // Join chatroom
 socket.emit('joinRoom', {username, room});
-roomNameRef.innerText = room;
+
+// Get room and users
+socket.on('roomUsers', ({room, users })=>{
+    outputRoomName(room);
+});
 
 // Message event from the server
 socket.on('message', message => {
@@ -46,5 +50,10 @@ function outputMessage(message){
         <p class="text">${message.text}</p>
     `;
     document.querySelector('.chat-messages').appendChild(div);
+}
+
+// Add room name to DOM
+function outputRoomName(room){
+    roomNameRef.innerText = room;
 }
 
