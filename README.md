@@ -1,6 +1,7 @@
 # Chatcord
 
 A realtime web chat application where users can join rooms and chat with other users.
+This app is built using native javascript and socket.io
 
 ## Setup Instructions
 
