@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const JoinChannel = () => {
 
     const [username, setUsername] = useState('');
-    const [channels, setChannels] = useState(['Javascript', 'Python', 'PHP', 'C#', 'Ruby', 'Java']);
+    const [channels, setChannels] = useState([]);
+    const [room, setRoom] = useState('');
+
+    useEffect(() => {
+        const channelSelections = ['Javascript', 'Python', 'PHP', 'C#', 'Ruby', 'Java']
+        setChannels(channelSelections);
+        setRoom(channelSelections[0]);
+    }, []);
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(username);
-    }
+        console.log(username, room);
+    };
 
     return (
         <div className="join-container">
@@ -23,10 +30,8 @@ const JoinChannel = () => {
                     </div>
                     <div className="form-control">
                         <label htmlFor="room">Room</label>
-                        <select name="room" id="room">
-                            {
-                                channels.map((channel, index) => (<option key={index}>{channel}</option>))
-                            }
+                        <select name="room" id="room" onChange={e => setRoom(e.target.value)}>
+                            {channels.map((channel, index) => (<option key={index} value={channel}>{channel}</option>))}
                         </select>
                     </div>
                     <button type="submit" className="btn">Join Chat</button>
