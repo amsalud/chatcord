@@ -1,6 +1,7 @@
 import React from 'react';
 
 const JoinChannel = () => {
+
     return (
         <div className="join-container">
             <header className="join-header">
@@ -9,7 +10,7 @@ const JoinChannel = () => {
             <main className="join-main">
                 <form action="chat.html">
                     <div className="form-control">
-                        <label for="username">Username</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
                             name="username"
@@ -19,7 +20,7 @@ const JoinChannel = () => {
                         />
                     </div>
                     <div className="form-control">
-                        <label for="room">Room</label>
+                        <label htmlFor="room">Room</label>
                         <select name="room" id="room">
                             <option value="JavaScript">JavaScript</option>
                             <option value="Python">Python</option>
