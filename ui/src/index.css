@@ -60,6 +60,7 @@ a {
 
 .chat-main {
 	display: grid;
+	height: calc(100vh - 205px);
 	grid-template-columns: 1fr 3fr;
 }
 
