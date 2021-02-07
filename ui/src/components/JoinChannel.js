@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { joinChannel } from '../actions';
 
-const JoinChannel = () => {
+const JoinChannel = ({ joinChannel }) => {
 
     const [username, setUsername] = useState('');
     const [channels, setChannels] = useState([]);
@@ -14,7 +16,7 @@ const JoinChannel = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(username, room);
+        joinChannel(username, room);
     };
 
     return (
@@ -41,4 +43,4 @@ const JoinChannel = () => {
     );
 };
 
-export default JoinChannel;
+export default connect(null, { joinChannel })(JoinChannel);
