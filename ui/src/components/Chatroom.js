@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Chatroom = ({ channel }) => {
+const Chatroom = ({ channel, users }) => {
     return (
         <div className="chat-container">
             <header className="chat-header">
@@ -13,7 +13,7 @@ const Chatroom = ({ channel }) => {
                     <h3><i className="fas fa-comments"></i> Channel Name:</h3>
                     <h2 id="room-name">{channel}</h2>
                     <h3><i className="fas fa-users"></i> Users</h3>
-                    <ul id="users"></ul>
+                    <ul id="users">{users.map((user, index) => <li key={index}>{user}</li>)}</ul>
                 </div>
                 <div className="chat-messages"></div>
             </main>
@@ -35,7 +35,8 @@ const Chatroom = ({ channel }) => {
 
 const mapStateToProps = state => {
     return {
-        channel: state.chat.channel
+        channel: state.chat.channel,
+        users: state.chat.users
     }
 };
 
