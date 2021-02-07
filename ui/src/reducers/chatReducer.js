@@ -1,7 +1,9 @@
 import { SET_CHANNEL } from '../actions/types';
 
 const initialState = {
-    channel: null
+    channel: null,
+    users: [],
+    messages: []
 };
 
 const chatReducer = (state=initialState, action) => {
