@@ -11,7 +11,6 @@ import reducers from './reducers';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
 
-
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
