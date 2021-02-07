@@ -31,7 +31,7 @@ const JoinChannel = () => {
                     <div className="form-control">
                         <label htmlFor="room">Room</label>
                         <select name="room" id="room" onChange={e => setRoom(e.target.value)}>
-                            {channels.map((channel, index) => (<option key={index} value={channel}>{channel}</option>))}
+                            {channels.map((channel, index) => <option key={index} value={channel}>{channel}</option>)}
                         </select>
                     </div>
                     <button type="submit" className="btn">Join Chat</button>
