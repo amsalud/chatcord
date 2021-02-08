@@ -3,6 +3,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import history from './history';
 import JoinChannel from './components/JoinChannel';
 import Chatroom from './components/Chatroom';
+import PageNotFound from './components/PageNotFound';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={JoinChannel} />
         <Route path="/chatroom/:name" exact component={Chatroom} />
+        <Route component={PageNotFound}/>
       </Switch>
     </Router>
   );
