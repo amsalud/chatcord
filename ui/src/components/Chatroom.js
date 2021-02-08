@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { leaveRoom } from '../actions';
 
-const Chatroom = ({ channel, users }) => {
+const Chatroom = ({ channel, users, leaveRoom }) => {
     return (
         <div className="chat-container">
             <header className="chat-header">
                 <h1><i className="fas fa-smile"></i> ChatCord</h1>
-                <a href="index.html" className="btn">Leave Room</a>
+                <button onClick={leaveRoom} className="btn">Leave Room</button>
             </header>
             <main className="chat-main">
                 <div className="chat-sidebar">
@@ -40,4 +41,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Chatroom);
+export default connect(mapStateToProps, { leaveRoom })(Chatroom);
