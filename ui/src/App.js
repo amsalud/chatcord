@@ -9,7 +9,7 @@ const App = () => {
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={JoinChannel} />
-        <Route path="/chatroom" exact component={Chatroom} />
+        <Route path="/chatroom/:name" exact component={Chatroom} />
       </Switch>
     </Router>
   );
