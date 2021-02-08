@@ -7,7 +7,6 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
     useEffect(() => {
         const { name } = match.params;
         if (!channel) setChannel(name);
-        console.log('here');
 
     }, [match, setChannel, channel]);
 
