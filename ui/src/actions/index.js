@@ -3,8 +3,8 @@ import history from '../history';
 
 export const joinChannel = (username, channel) => dispatch => {
     dispatch({ type: SET_USER, payload: username });
-    dispatch({ type: SET_CHANNEL, payload: channel });
-    history.push('/chatroom');
+    dispatch(setChannel(channel));
+    history.push(`/chatroom/${channel}`);
 };
 
 export const leaveRoom = () => dispatch => {
@@ -12,3 +12,5 @@ export const leaveRoom = () => dispatch => {
     dispatch({ type: CLEAR_CHANNEL });
     history.push('/');
 };
+
+export const setChannel = (channel) => ({ type: SET_CHANNEL, payload: channel });
