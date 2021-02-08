@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { leaveRoom } from '../actions';
+import { leaveRoom, setChannel } from '../actions';
 
-const Chatroom = ({ channel, users, leaveRoom }) => {
+const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
+
+    useEffect(() => {
+        const { name } = match.params;
+        if (!channel) setChannel(name);
+        console.log('here');
+
+    }, [match, setChannel, channel]);
+
     return (
         <div className="chat-container">
             <header className="chat-header">
@@ -41,4 +49,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { leaveRoom })(Chatroom);
+export default connect(mapStateToProps, { leaveRoom, setChannel })(Chatroom);
