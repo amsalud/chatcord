@@ -5,9 +5,12 @@ import { leaveRoom, setChannel } from '../actions';
 const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
 
     useEffect(() => {
-        const { name } = match.params;
-        if (!channel) setChannel(name);
-
+        if (!channel) {
+            const { name } = match.params;
+            setChannel(name);
+        } else {
+            // Connect to socket
+        }
     }, [match, setChannel, channel]);
 
     return (
