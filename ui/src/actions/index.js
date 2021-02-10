@@ -15,4 +15,4 @@ export const leaveRoom = () => dispatch => {
 
 export const setChannel = channel => ({ type: SET_CHANNEL, payload: channel });
 export const setMessages = message => ({ type: SET_MESSAGE, payload: message });
-export const setUsers = users => ({ type: SET_CHATROOM_USERS, payload: users });
+export const setChatroomUsers = users => ({ type: SET_CHATROOM_USERS, payload: users });
