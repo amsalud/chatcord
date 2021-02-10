@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
-import { leaveRoom, setChannel, setMessages } from '../actions';
+import { leaveRoom, setChannel, setMessages, setUsers } from '../actions';
 
-const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages }) => {
+const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages, setUsers }) => {
 
     const [message, setMessage] = useState("");
     const socketConnection = useRef();
@@ -21,6 +21,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
             //Listeners
             socketConnection.current.on('message', (message) => setMessages(message));
+            socketConnection.current.on('roomUsers', ({ room, users }) => setUsers(users));
         }
     }, [match, setChannel, channel, setMessages, username]);
 
@@ -52,7 +53,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
                     <h3><i className="fas fa-comments"></i> Channel Name:</h3>
                     <h2 id="room-name">{channel}</h2>
                     <h3><i className="fas fa-users"></i> Users</h3>
-                    <ul id="users">{users.map((user, index) => <li key={index}>{user}</li>)}</ul>
+                    <ul id="users">{users.map((user, index) => <li key={index}>{user.username}</li>)}</ul>
                 </div>
                 <div className="chat-messages">
                     {renderMessages()}
@@ -77,4 +78,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { leaveRoom, setChannel, setMessages })(Chatroom);
+export default connect(mapStateToProps, { leaveRoom, setChannel, setMessages, setUsers })(Chatroom);
