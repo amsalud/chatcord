@@ -1,4 +1,4 @@
-import { SET_USER, SET_CHANNEL, CLEAR_CHANNEL, CLEAR_USER } from './types'
+import { SET_USER, SET_CHANNEL, CLEAR_CHANNEL, CLEAR_USER, SET_MESSAGE } from './types'
 import history from '../history';
 
 export const joinChannel = (username, channel) => dispatch => {
@@ -13,4 +13,5 @@ export const leaveRoom = () => dispatch => {
     history.push('/');
 };
 
-export const setChannel = (channel) => ({ type: SET_CHANNEL, payload: channel });
+export const setChannel = channel => ({ type: SET_CHANNEL, payload: channel });
+export const setMessages = message => ({ type: SET_MESSAGE, payload: message });
