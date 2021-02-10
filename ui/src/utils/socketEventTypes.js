@@ -1,5 +1,5 @@
-export const JOIN_CHANNEL = 'joinRoom';
-export const CHATROOM_USERS_UPDATE = 'roomUsers';
-export const NEW_MESSAGE = 'message';
-export const SEND_MESSAGE = 'chatMessage';
+export const JOIN_CHANNEL = 'JOIN_CHANNEL';
+export const CHATROOM_USERS_UPDATED = 'CHATROOM_USERS_UPDATED';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
 
