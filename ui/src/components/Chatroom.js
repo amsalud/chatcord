@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel } from '../actions';
@@ -14,7 +14,7 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
         if (!channel) {
             const { name } = match.params;
             setChannel(name);
-        } else {
+        } else if(!socketRef.current){
             // Connect to socket
             socketRef.current = socketIOClient(SOCKET_SERVER_URL);
             socketRef.current.emit('joinRoom', { username: user, room: channel });
@@ -24,16 +24,16 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
                 setMessages([...messages, message]);
             });
         }
-    }, [match, setChannel, channel]);
+    }, [match, setChannel, channel, messages]);
 
 
     const renderMessages = () => {
         return messages.map((message, index) => {
             return (
-                <Fragment key={index}>
-                    <p className="meta">${message.username} <span>${message.time}</span></p>
-                    <p className="text">${message.text}</p>
-                </Fragment>
+                <div className="message" key={index}>
+                    <p className="meta">{message.username} <span>{message.time}</span></p>
+                    <p className="text">{message.text}</p>
+                </div>
             );
         });
     };
