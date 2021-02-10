@@ -15,9 +15,9 @@ const botName = 'Chatcord Bot';
 
 // Run when client connects
 io.on('connection', socket => {
+    console.log(`Socket connection established with id: ${socket.id}`);
 
     socket.on('joinRoom', ({ username, room }) => {
-        console.log('joinRoom');
         const user = userJoin(socket.id, username, room);
 
         socket.join(user.room);
