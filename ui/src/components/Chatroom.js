@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
+import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel } from '../actions';
 
 const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
+
+    const socketRef = useRef();
+    const [messages, setMessages] = useState([]);
+    const SOCKET_SERVER_URL = 'http://localhost:5000';
+    const user = 'user1';
 
     useEffect(() => {
         if (!channel) {
@@ -10,8 +16,27 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
             setChannel(name);
         } else {
             // Connect to socket
+            socketRef.current = socketIOClient(SOCKET_SERVER_URL);
+            socketRef.current.emit('joinRoom', { username: user, room: channel });
+
+            //Listeners
+            socketRef.current.on('message', (message) => {
+                setMessages([...messages, message]);
+            });
         }
     }, [match, setChannel, channel]);
+
+
+    const renderMessages = () => {
+        return messages.map((message, index) => {
+            return (
+                <Fragment key={index}>
+                    <p className="meta">${message.username} <span>${message.time}</span></p>
+                    <p className="text">${message.text}</p>
+                </Fragment>
+            );
+        });
+    };
 
     return (
         <div className="chat-container">
@@ -26,7 +51,9 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
                     <h3><i className="fas fa-users"></i> Users</h3>
                     <ul id="users">{users.map((user, index) => <li key={index}>{user}</li>)}</ul>
                 </div>
-                <div className="chat-messages"></div>
+                <div className="chat-messages">
+                    {renderMessages()}
+                </div>
             </main>
             <div className="chat-form-container">
                 <form id="chat-form">
