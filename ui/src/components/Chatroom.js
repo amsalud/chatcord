@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel, setMessages, setChatroomUsers } from '../actions';
-import { SEND_MESSAGE, JOIN_CHANNEL, CHATROOM_USERS_UPDATE, NEW_MESSAGE } from '../utils/socketEventTypes';
+import { SEND_MESSAGE, JOIN_CHANNEL, CHATROOM_USERS_UPDATED, NEW_MESSAGE } from '../utils/socketEventTypes';
 
 let socketConnection;
 const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_ENDPOINT;
@@ -22,7 +22,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
             //Listeners
             socketConnection.on(NEW_MESSAGE, (message) => setMessages(message));
-            socketConnection.on(CHATROOM_USERS_UPDATE, ({ room, users }) => setChatroomUsers(users));
+            socketConnection.on(CHATROOM_USERS_UPDATED, ({ room, users }) => setChatroomUsers(users));
         }
     }, [match, setChannel, channel, setMessages, username, setChatroomUsers]);
 
