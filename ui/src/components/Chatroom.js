@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel, setMessages } from '../actions';
 
-const Chatroom = ({ channel, messages, users, match, leaveRoom, setChannel, setMessages }) => {
+const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages }) => {
 
     const [message, setMessage] = useState("");
     const socketConnection = useRef();
 
     const SOCKET_SERVER_URL = 'http://localhost:5000';
-    const user = 'user1';
 
     useEffect(() => {
         if (!channel) {
@@ -18,12 +17,12 @@ const Chatroom = ({ channel, messages, users, match, leaveRoom, setChannel, setM
         } else if (!socketConnection.current) {
             // Connect to socket
             socketConnection.current = socketIOClient(SOCKET_SERVER_URL);
-            socketConnection.current.emit('joinRoom', { username: user, room: channel });
+            socketConnection.current.emit('joinRoom', { username, room: channel });
 
             //Listeners
             socketConnection.current.on('message', (message) => setMessages(message));
         }
-    }, [match, setChannel, channel, setMessages]);
+    }, [match, setChannel, channel, setMessages, username]);
 
     const renderMessages = () => {
         return messages.map((message, index) => {
@@ -71,6 +70,7 @@ const Chatroom = ({ channel, messages, users, match, leaveRoom, setChannel, setM
 
 const mapStateToProps = state => {
     return {
+        username: state.user.username || 'testUser',
         channel: state.chat.channel,
         users: state.chat.users,
         messages: state.chat.messages
