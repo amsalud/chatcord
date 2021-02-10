@@ -1,4 +1,4 @@
-import { SET_CHANNEL, CLEAR_CHANNEL } from '../actions/types';
+import { SET_CHANNEL, CLEAR_CHANNEL, SET_MESSAGE } from '../actions/types';
 
 const initialState = {
     channel: null,
@@ -12,6 +12,8 @@ const chatReducer = (state = initialState, action) => {
             return { ...state, channel: action.payload };
         case CLEAR_CHANNEL:
             return { ...initialState };
+        case SET_MESSAGE:
+            return { ...state, messages: [...state.messages, action.payload] };
         default:
             return state;
     }
