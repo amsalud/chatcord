@@ -1,4 +1,4 @@
-import { SET_CHANNEL, CLEAR_CHANNEL, SET_MESSAGE } from '../actions/types';
+import { SET_CHANNEL, CLEAR_CHANNEL, SET_MESSAGE, SET_CHATROOM_USERS } from '../actions/types';
 
 const initialState = {
     channel: null,
@@ -14,6 +14,8 @@ const chatReducer = (state = initialState, action) => {
             return { ...initialState };
         case SET_MESSAGE:
             return { ...state, messages: [...state.messages, action.payload] };
+        case SET_CHATROOM_USERS:
+            return { ...state, users: action.payload };
         default:
             return state;
     }
