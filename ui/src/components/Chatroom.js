@@ -43,11 +43,16 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
         setMessage("");
     };
 
+    const onLeaveRoom = () => {
+        socketConnection.close();
+        leaveRoom();
+    };
+
     return (
         <div className="chat-container">
             <header className="chat-header">
                 <h1><i className="fas fa-smile"></i> ChatCord</h1>
-                <button onClick={leaveRoom} className="btn">Leave Room</button>
+                <button onClick={onLeaveRoom} className="btn">Leave Room</button>
             </header>
             <main className="chat-main">
                 <div className="chat-sidebar">
