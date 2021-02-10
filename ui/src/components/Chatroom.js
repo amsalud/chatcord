@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel, setMessages, setChatroomUsers } from '../actions';
+import { SEND_MESSAGE, JOIN_CHANNEL, CHATROOM_USERS_UPDATE, NEW_MESSAGE } from '../utils/socketEventTypes';
 
 let socketConnection;
 const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages, setChatroomUsers }) => {
@@ -16,11 +17,11 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
         } else if (!socketConnection) {
             // Connect to socket
             socketConnection = socketIOClient(SOCKET_SERVER_URL);
-            socketConnection.emit('joinRoom', { username, room: channel });
+            socketConnection.emit(JOIN_CHANNEL, { username, room: channel });
 
             //Listeners
-            socketConnection.on('message', (message) => setMessages(message));
-            socketConnection.on('roomUsers', ({ room, users }) => setChatroomUsers(users));
+            socketConnection.on(NEW_MESSAGE, (message) => setMessages(message));
+            socketConnection.on(CHATROOM_USERS_UPDATE, ({ room, users }) => setChatroomUsers(users));
         }
     }, [match, setChannel, channel, setMessages, username, setChatroomUsers]);
 
@@ -37,7 +38,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
     const sendMessage = (e) => {
         e.preventDefault();
-        socketConnection.emit('chatMessage', message);
+        socketConnection.emit(SEND_MESSAGE, message);
         setMessage("");
     };
 
