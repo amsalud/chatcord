@@ -7,7 +7,7 @@ const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/u
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, { cors: { origin: "*" } });
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -17,6 +17,7 @@ const botName = 'Chatcord Bot';
 io.on('connection', socket => {
 
     socket.on('joinRoom', ({ username, room }) => {
+        console.log('joinRoom');
         const user = userJoin(socket.id, username, room);
 
         socket.join(user.room);
