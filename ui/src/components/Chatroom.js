@@ -1,29 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
 import { leaveRoom, setChannel, setMessages, setChatroomUsers } from '../actions';
 
+let socketConnection;
 const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages, setChatroomUsers }) => {
 
     const [message, setMessage] = useState("");
-    const socketConnection = useRef();
-
     const SOCKET_SERVER_URL = 'http://localhost:5000';
 
     useEffect(() => {
         if (!channel) {
             const { name } = match.params;
             setChannel(name);
-        } else if (!socketConnection.current) {
+        } else if (!socketConnection) {
             // Connect to socket
-            socketConnection.current = socketIOClient(SOCKET_SERVER_URL);
-            socketConnection.current.emit('joinRoom', { username, room: channel });
+            socketConnection = socketIOClient(SOCKET_SERVER_URL);
+            socketConnection.emit('joinRoom', { username, room: channel });
 
             //Listeners
-            socketConnection.current.on('message', (message) => setMessages(message));
-            socketConnection.current.on('roomUsers', ({ room, users }) => setChatroomUsers(users));
+            socketConnection.on('message', (message) => setMessages(message));
+            socketConnection.on('roomUsers', ({ room, users }) => setChatroomUsers(users));
         }
-    }, [match, setChannel, channel, setMessages, username]);
+    }, [match, setChannel, channel, setMessages, username, setChatroomUsers]);
 
     const renderMessages = () => {
         return messages.map((message, index) => {
@@ -38,7 +37,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
     const sendMessage = (e) => {
         e.preventDefault();
-        socketConnection.current.emit('chatMessage', message);
+        socketConnection.emit('chatMessage', message);
         setMessage("");
     };
 
