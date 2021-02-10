@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from "socket.io-client";
-import { leaveRoom, setChannel } from '../actions';
+import { leaveRoom, setChannel, setMessages } from '../actions';
 
-const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
+const Chatroom = ({ channel, messages, users, match, leaveRoom, setChannel, setMessages }) => {
 
-    const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const socketConnection = useRef();
 
@@ -22,12 +21,9 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
             socketConnection.current.emit('joinRoom', { username: user, room: channel });
 
             //Listeners
-            socketConnection.current.on('message', (message) => {
-                setMessages([...messages, message]);
-            });
+            socketConnection.current.on('message', (message) => setMessages(message));
         }
-    }, [match, setChannel, channel, messages]);
-
+    }, [match, setChannel, channel, setMessages]);
 
     const renderMessages = () => {
         return messages.map((message, index) => {
@@ -42,7 +38,8 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        console.log(message);
+        socketConnection.current.emit('chatMessage', message);
+        setMessage("");
     };
 
     return (
@@ -75,8 +72,9 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
 const mapStateToProps = state => {
     return {
         channel: state.chat.channel,
-        users: state.chat.users
+        users: state.chat.users,
+        messages: state.chat.messages
     }
 };
 
-export default connect(mapStateToProps, { leaveRoom, setChannel })(Chatroom);
+export default connect(mapStateToProps, { leaveRoom, setChannel, setMessages })(Chatroom);
