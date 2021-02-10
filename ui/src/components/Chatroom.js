@@ -45,6 +45,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
     const onLeaveRoom = () => {
         socketConnection.close();
+        socketConnection = null;
         leaveRoom();
     };
 
