@@ -5,8 +5,10 @@ import { leaveRoom, setChannel } from '../actions';
 
 const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
 
-    const socketRef = useRef();
     const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState("");
+    const socketConnection = useRef();
+
     const SOCKET_SERVER_URL = 'http://localhost:5000';
     const user = 'user1';
 
@@ -14,13 +16,13 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
         if (!channel) {
             const { name } = match.params;
             setChannel(name);
-        } else if(!socketRef.current){
+        } else if (!socketConnection.current) {
             // Connect to socket
-            socketRef.current = socketIOClient(SOCKET_SERVER_URL);
-            socketRef.current.emit('joinRoom', { username: user, room: channel });
+            socketConnection.current = socketIOClient(SOCKET_SERVER_URL);
+            socketConnection.current.emit('joinRoom', { username: user, room: channel });
 
             //Listeners
-            socketRef.current.on('message', (message) => {
+            socketConnection.current.on('message', (message) => {
                 setMessages([...messages, message]);
             });
         }
@@ -36,6 +38,11 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
                 </div>
             );
         });
+    };
+
+    const sendMessage = (e) => {
+        e.preventDefault();
+        console.log(message);
     };
 
     return (
@@ -56,15 +63,9 @@ const Chatroom = ({ channel, users, match, leaveRoom, setChannel }) => {
                 </div>
             </main>
             <div className="chat-form-container">
-                <form id="chat-form">
-                    <input
-                        id="msg"
-                        type="text"
-                        placeholder="Enter Message"
-                        required
-                        autoComplete="off"
-                    />
-                    <button className="btn"><i className="fas fa-paper-plane"></i> Send</button>
+                <form id="chat-form" onSubmit={sendMessage}>
+                    <input id="msg" type="text" placeholder="Enter Message" value={message} onChange={(e) => setMessage(e.target.value)} required autoComplete="off" />
+                    <button className="btn" type="submit"><i className="fas fa-paper-plane"></i> Send</button>
                 </form>
             </div>
         </div>
