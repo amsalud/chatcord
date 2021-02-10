@@ -5,10 +5,11 @@ import { leaveRoom, setChannel, setMessages, setChatroomUsers } from '../actions
 import { SEND_MESSAGE, JOIN_CHANNEL, CHATROOM_USERS_UPDATE, NEW_MESSAGE } from '../utils/socketEventTypes';
 
 let socketConnection;
+const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_ENDPOINT;
+
 const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setChannel, setMessages, setChatroomUsers }) => {
 
     const [message, setMessage] = useState("");
-    const SOCKET_SERVER_URL = 'http://localhost:5000';
 
     useEffect(() => {
         if (!channel) {
