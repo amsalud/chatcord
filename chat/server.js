@@ -42,6 +42,7 @@ io.on('connection', socket => {
         // Runs when client disconnects
         socket.on('disconnect', () => {
             const user = userLeave(socket.id);
+            console.log(`Socket connection: ${socket.id} has been disconnected`);
             if (user) {
                 io.to(user.room).emit(NEW_MESSAGE, formatMessage(botName, `${user.username} left the chat`));
                 io.to(user.room).emit(CHATROOM_USERS_UPDATED, {
