@@ -22,7 +22,7 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
 
             //Listeners
             socketConnection.on(NEW_MESSAGE, (message) => setMessages(message));
-            socketConnection.on(CHATROOM_USERS_UPDATED, ({ channel, users }) => setChatroomUsers(users));
+            socketConnection.on(CHATROOM_USERS_UPDATED, (users) => setChatroomUsers(users));
         }
     }, [match, setChannel, channel, setMessages, username, setChatroomUsers]);
 
