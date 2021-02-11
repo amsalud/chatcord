@@ -3,7 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
-const { userJoin, getCurrentUser, userLeave, getChannelUsers } = require('./utils/users');
+const { userJoin, userLeave, getChannelUsers } = require('./utils/users');
 const { JOIN_CHANNEL, SEND_MESSAGE, NEW_MESSAGE, CHATROOM_USERS_UPDATED } = require('./utils/socketEventTypes');
 
 const app = express();
