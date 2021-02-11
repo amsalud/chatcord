@@ -18,11 +18,11 @@ const Chatroom = ({ channel, messages, username, users, match, leaveRoom, setCha
         } else if (!socketConnection) {
             // Connect to socket
             socketConnection = socketIOClient(SOCKET_SERVER_URL);
-            socketConnection.emit(JOIN_CHANNEL, { username, room: channel });
+            socketConnection.emit(JOIN_CHANNEL, { username, channel });
 
             //Listeners
             socketConnection.on(NEW_MESSAGE, (message) => setMessages(message));
-            socketConnection.on(CHATROOM_USERS_UPDATED, ({ room, users }) => setChatroomUsers(users));
+            socketConnection.on(CHATROOM_USERS_UPDATED, ({ channel, users }) => setChatroomUsers(users));
         }
     }, [match, setChannel, channel, setMessages, username, setChatroomUsers]);
 
