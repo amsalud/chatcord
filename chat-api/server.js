@@ -29,15 +29,10 @@ io.on('connection', socket => {
         // Broadcast when a user connects
         socket.broadcast.to(user.channel).emit(NEW_MESSAGE, formatMessage(botName, `${user.username} has joined the chat`));
 
-        io.to(user.channel).emit(CHATROOM_USERS_UPDATED, {
-            channel: user.channel,
-            users: getChannelUsers(user.channel)
-        });
+        io.to(user.channel).emit(CHATROOM_USERS_UPDATED, getChannelUsers(user.channel));
 
         // Listen for chatMessage event
-        socket.on(SEND_MESSAGE, (msg) => {
-            io.emit(NEW_MESSAGE, formatMessage(user.username, msg));
-        });
+        socket.on(SEND_MESSAGE, (msg) => io.emit(NEW_MESSAGE, formatMessage(user.username, msg)));
 
         // Runs when client disconnects
         socket.on('disconnect', () => {
@@ -45,15 +40,11 @@ io.on('connection', socket => {
             console.log(`Socket connection: ${socket.id} has been disconnected`);
             if (user) {
                 io.to(user.channel).emit(NEW_MESSAGE, formatMessage(botName, `${user.username} left the chat`));
-                io.to(user.channel).emit(CHATROOM_USERS_UPDATED, {
-                    channel: user.channel,
-                    users: getChannelUsers(user.channel)
-                });
+                io.to(user.channel).emit(CHATROOM_USERS_UPDATED, getChannelUsers(user.channel));
             }
         });
     });
 });
 
 const PORT = 5000 || process.env.PORT;
-
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
